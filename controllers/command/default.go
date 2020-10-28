@@ -6,7 +6,7 @@ import (
 )
 
 func Init() {
-	getBaiduNews := toolbox.NewTask("getBaiduNews", "0 */2 * * * *", getBaiduNews)
+	getBaiduNews := toolbox.NewTask("getBaiduNews", "0 */5 * * * *", getBaiduNews)
 	err := getBaiduNews.Run()
 	if err != nil {
 		utils.Logs.Warning(err.Error())

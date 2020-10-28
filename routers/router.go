@@ -1,8 +1,8 @@
 package routers
 
 import (
-	"news.com/controllers"
 	"github.com/astaxie/beego"
+	"news.com/controllers"
 )
 
 func init() {

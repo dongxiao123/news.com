@@ -41,6 +41,6 @@ func init() {
 		panic(err)
 	}
 	orm.RegisterDataBase("default", "mysql", dbUser+":"+dbPass+"@tcp("+dbHost+")/"+dbName+"?charset=utf8")
-
+	orm.DebugLog = orm.NewLog(utils.Logs)
 	orm.Debug = true
 }

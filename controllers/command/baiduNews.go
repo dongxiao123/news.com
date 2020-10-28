@@ -14,10 +14,12 @@ func getBaiduNews() error {
 	o.Using("default")
 	updatedAt := time.Now().Format("2006-01-02 15:04:05")
 	for _, t := range titles {
-		_, err := o.InsertOrUpdate(&t, "updated_at='"+updatedAt+"'")
-		if err != nil {
-			utils.Logs.Alert("InsertOrUpdate", t)
-		}
+		go func() {
+			_, err := o.InsertOrUpdate(&t, "updated_at='"+updatedAt+"'")
+			if err != nil {
+				utils.Logs.Alert("InsertOrUpdate", t)
+			}
+		}()
 	}
 	return nil
 }
