@@ -8,6 +8,7 @@ import (
 )
 
 func getBaiduNews() error {
+	utils.Logs.Info("start getBaiduNews ..")
 	news := news.NewBaiduNews()
 	titles := news.GetTitleData()
 	o := orm.NewOrm()
@@ -21,5 +22,6 @@ func getBaiduNews() error {
 			}
 		}()
 	}
+	utils.Logs.Info("end getBaiduNews ..")
 	return nil
 }

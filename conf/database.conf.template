@@ -3,6 +3,7 @@ DB_HOST = 47.92.71.173
 DB_USER = root
 DB_PASS = 583185670DXdx||
 DB_DATABASE = news.com
+Debug=true
 
 [prod]
 DB_HOST =

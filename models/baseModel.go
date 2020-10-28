@@ -14,7 +14,15 @@ type BaseModelInterface interface {
 }
 
 func init() {
+	dbHost, dbUser, dbPass, dbName, debug := initDBConfig()
 	orm.RegisterDriver("mysql", orm.DRMySQL)
+	orm.RegisterDataBase("default", "mysql", dbUser+":"+dbPass+"@tcp("+dbHost+")/"+dbName+"?charset=utf8")
+	orm.DebugLog = orm.NewLog(utils.Logs)
+	orm.Debug = debug
+}
+
+//初始化数据库相关配置
+func initDBConfig() (string, string, string, string, bool) {
 	runmode := beego.AppConfig.DefaultString("runmode", "dev")
 	dbHost := beego.AppConfig.String(runmode + "::DB_HOST")
 	if dbHost == "" {
@@ -40,7 +48,7 @@ func init() {
 		utils.Logs.Error(err)
 		panic(err)
 	}
-	orm.RegisterDataBase("default", "mysql", dbUser+":"+dbPass+"@tcp("+dbHost+")/"+dbName+"?charset=utf8")
-	orm.DebugLog = orm.NewLog(utils.Logs)
-	orm.Debug = true
+	debug := beego.AppConfig.DefaultBool(runmode+"::Debug", false)
+
+	return dbHost, dbUser, dbPass, dbName, debug
 }
