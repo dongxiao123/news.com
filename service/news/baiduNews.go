@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/chromedp/chromedp"
-	"log"
 	"news.com/models"
 	"news.com/utils"
 	"strings"
@@ -45,11 +44,11 @@ func (n BaiduNews) GetTitleData() []models.Title {
 		chromedp.InnerHTML(`//div[@id='pane-news']/*`, &html),
 	)
 		err != nil {
-		panic(err)
+		utils.Logs.Warning(err.Error())
 	}
 	dom, err := goquery.NewDocumentFromReader(strings.NewReader(html))
 	if err != nil {
-		log.Fatalln(err)
+		utils.Logs.Warning(err.Error())
 	}
 	var titleMap []models.Title
 	dom.Find("a").Each(func(i int, selection *goquery.Selection) {
