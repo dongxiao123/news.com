@@ -9,6 +9,7 @@ type Title struct {
 	Title        string `json:"title"`
 	Code         string `json:"code"`
 	Url          string `json:"url"`
+	HasSpidered  int    `json:"has_spidered"`
 	Md5CodeTitle string `orm:"column(md_5_code_title)",json:"md_5_code_title"`
 	CreatedAt    string `json:"created_at"`
 	UpdatedAt    string `json:"updated_at"`
