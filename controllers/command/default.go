@@ -6,8 +6,8 @@ import (
 )
 
 func Init() {
-	getBaiduNews := toolbox.NewTask("getBaiduNews", "0 */5 * * * *", getBaiduNews)
-	spiderNews := toolbox.NewTask("getBaiduNews", "0 */5 * * * *", spiderNews)
+	getBaiduNews := toolbox.NewTask("getBaiduNews", "0 */1 * * * *", getBaiduNews)
+	spiderNews := toolbox.NewTask("getBaiduNews", "0 */1 * * * *", spiderNews)
 	err := getBaiduNews.Run()
 	if err != nil {
 		utils.Logs.Warning(err.Error())

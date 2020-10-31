@@ -12,6 +12,7 @@ import (
 )
 
 func Spider() (titleMap []*models.Title, err error) {
+	utils.Logs.Warning("start Spider ... ")
 	o := orm.NewOrm()
 	var titles []*models.Title
 	num, err := o.QueryTable("title").Filter("has_spidered", "0").All(&titles)
@@ -35,7 +36,7 @@ func Spider() (titleMap []*models.Title, err error) {
 		t.HasSpidered = 1
 		_, err := o.Update(t)
 		if err != nil {
-			utils.Logs.Warning("Update error :", err)
+			utils.Logs.Warning("Update error :", err.Error())
 		}
 
 		//创建chrome窗口
@@ -46,13 +47,13 @@ func Spider() (titleMap []*models.Title, err error) {
 		var html string
 		if err := chromedp.Run(ctx,
 			chromedp.Navigate(t.Url),
-			chromedp.WaitVisible(`div`, chromedp.ByQuery),
+			chromedp.WaitVisible(`body`, chromedp.ByQuery),
 			chromedp.InnerHTML(`body`, &html, chromedp.NodeVisible, chromedp.ByQuery),
 		)
 			err != nil {
 			utils.Logs.Warning(err.Error())
 		}
-		utils.Logs.Warning("html_html",html)
+		utils.Logs.Warning("html_Spider_html", html)
 		dom, err := goquery.NewDocumentFromReader(strings.NewReader(html))
 		if err != nil {
 			utils.Logs.Warning(err.Error())
@@ -60,10 +61,12 @@ func Spider() (titleMap []*models.Title, err error) {
 		var titleMap []models.Title
 		dom.Find("a").Each(func(i int, selection *goquery.Selection) {
 			title := selection.Text()
+			title = strings.Trim(title, "")
 			if !checkExcludeTitle(title) {
 				return
 			}
 			url, _ := selection.Attr("href")
+			url = strings.Trim(url, "")
 			if !checkExcludeUrl(url) {
 				return
 			}

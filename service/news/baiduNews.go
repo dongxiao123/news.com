@@ -47,18 +47,20 @@ func (n BaiduNews) GetTitleData() []models.Title {
 		err != nil {
 		utils.Logs.Warning(err.Error())
 	}
-	utils.Logs.Warning(html)
+	utils.Logs.Warning("html_html", html)
 	dom, err := goquery.NewDocumentFromReader(strings.NewReader(html))
 	if err != nil {
 		utils.Logs.Warning(err.Error())
 	}
 	var titleMap []models.Title
 	dom.Find("a").Each(func(i int, selection *goquery.Selection) {
-		title := selection.Text()
+
+		title := strings.Trim(selection.Text(), "")
 		if !checkExcludeTitle(title) {
 			return
 		}
 		url, _ := selection.Attr("href")
+		url = strings.Trim(url, "")
 		if !checkExcludeUrl(url) {
 			return
 		}

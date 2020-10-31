@@ -4,7 +4,6 @@ import (
 	"github.com/astaxie/beego/orm"
 	"news.com/service/news"
 	"news.com/utils"
-	"sync"
 )
 
 func getBaiduNews() error {
@@ -14,18 +13,12 @@ func getBaiduNews() error {
 	o := orm.NewOrm()
 	o.Using("default")
 
-	var wg sync.WaitGroup
-	wg.Add(len(titles))
 	for _, t := range titles {
-		go func() {
-			_, _, err := o.ReadOrCreate(&t, "md_5_code_title")
-			if err != nil {
-				utils.Logs.Alert("ReadOrCreate error : ", t)
-			}
-			wg.Done()
-		}()
+		_, _, err := o.ReadOrCreate(&t, "Md5CodeTitle")
+		if err != nil {
+			utils.Logs.Alert("ReadOrCreate error : ", err.Error())
+		}
 	}
-	wg.Wait() // 等待，直到计数为0
 	utils.Logs.Info("end getBaiduNews ..")
 	return nil
 }
