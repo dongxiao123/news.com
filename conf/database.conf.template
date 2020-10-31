@@ -1,7 +1,7 @@
 [dev]
-DB_HOST = 47.92.71.173
-DB_USER = root
-DB_PASS = 583185670DXdx||
+DB_HOST =
+DB_USER =
+DB_PASS =
 DB_DATABASE = news.com
 Debug=true
 
